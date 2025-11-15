@@ -26,11 +26,15 @@ export const useThemeStore = defineStore('theme', () => {
       theme.value = 'dark';
       localStorage.setItem('venus-theme', 'dark');
       document.documentElement.classList.add(darkModeClass);
+      // @ts-ignore-next-line
+      document.getElementById('code-editor')?.nextElementSibling?.CodeMirror?.setOption('theme', 'dracula');
     }
     else {
       theme.value = 'light';
       localStorage.setItem('venus-theme', 'light');
       document.documentElement.classList.remove(darkModeClass);
+      // @ts-ignore-next-line
+      document.getElementById('code-editor')?.nextElementSibling?.CodeMirror?.setOption('theme', 'eclipse');
     }
   };
 
