@@ -50,7 +50,7 @@ export class RequestsService {
   }
 
   public async patch<T>(path: string, data: any): Promise<VenusResponse<T>> {
-    return this.makeRequest('patch', path, data);
+    return this.makeRequest('PATCH', path, data);
   }
 
   public async put<T>(path: string, data: any): Promise<VenusResponse<T>> {

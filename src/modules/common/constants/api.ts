@@ -7,6 +7,7 @@ export const apiRoutes = {
   notes: {
     create: 'app/note',
     getDetail: (uuid: string) => `app/note/${uuid}`,
+    patch: (id: number) => `app/note/${id}`,
   },
   users: {
     me: 'app/user/me'
