@@ -12,7 +12,11 @@
             @note-created="updateNotes"
           ></DashboardNotesPanel>
         </TabPanel>
-        <TabPanel value="1">You do not have any projects yet</TabPanel>
+        <TabPanel value="1">
+          <DashboardProjectsPanel
+            :projects="projects"
+          ></DashboardProjectsPanel>
+        </TabPanel>
       </TabPanels>
     </Tabs>
   </div>
@@ -30,16 +34,20 @@ import { useToast } from 'primevue/usetoast';
 import RequestsService from '@/modules/common/services/requests-service';
 import type { Note } from '@/modules/notes/types/notes-types';
 import DashboardNotesPanel from '../components/DashboardNotesPanel.vue';
+import type { Project } from '@/modules/projects/types/projects-types';
+import DashboardProjectsPanel from '../components/DashboardProjectsPanel.vue';
 
 const requests = new RequestsService();
 
 const toast = useToast();
 
 const notes: Ref<Note[]> = ref([]);
+const projects: Ref<Project[]> = ref([]);
 
 onMounted(async () => {
   await Promise.all([
     updateNotes(),
+    updateProjects(),
   ]);
 });
 
@@ -50,5 +58,14 @@ const updateNotes = async () => {
     return;
   }
   notes.value = response.data;
+};
+
+const updateProjects = async () => {
+  const projectsResponse = await requests.get<Project[]>('app/project');
+  if ('errors' in projectsResponse) {
+    alert(projectsResponse.message);
+    return;
+  }
+  projects.value = projectsResponse.data;
 };
 </script>

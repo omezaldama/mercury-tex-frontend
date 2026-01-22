@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import IftaLabel from 'primevue/iftalabel';
