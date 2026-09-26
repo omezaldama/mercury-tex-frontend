@@ -2,19 +2,22 @@ export const apiRoutes = {
   auth: {
     login: 'auth/login',
     logout: 'auth/logout',
+    refreshToken: 'auth/refresh-token',
     signup: 'auth/signup',
   },
   notes: {
-    create: 'app/note',
-    getDetail: (uuid: string) => `app/note/${uuid}`,
-    patch: (id: number) => `app/note/${id}`,
+    create: 'notes',
+    getDetail: (uuid: string) => `notes/${uuid}`,
+    getNotes: 'notes',
+    patch: (id: number) => `notes/${id}`,
   },
   projects: {
-    getFileContent: (projectUuid: string, fileUuid: string) => `app/project/${projectUuid}/file/${fileUuid}`,
-    getFiles: (uuid: string) => `app/project/${uuid}`,
-    saveFile: (projectUuid: string, fileUuid: string) => `app/project/${projectUuid}/file/${fileUuid}`,
+    getFileContent: (projectUuid: string, fileUuid: string) => `projects/${projectUuid}/file/${fileUuid}`,
+    getFiles: (uuid: string) => `projects/${uuid}`,
+    getProjects: 'projects',
+    saveFile: (projectUuid: string, fileUuid: string) => `projects/${projectUuid}/file/${fileUuid}`,
   },
   users: {
-    me: 'app/user/me',
+    me: 'users/me',
   },
 };

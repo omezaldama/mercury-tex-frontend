@@ -2,20 +2,20 @@
   <div class="w-100">
     <Tabs value="0">
       <TabList>
-        <Tab value="0">Notes</Tab>
-        <Tab value="1">Projects</Tab>
+        <Tab value="0">Projects</Tab>
+        <Tab value="1">Notes</Tab>
       </TabList>
       <TabPanels>
         <TabPanel value="0">
+          <DashboardProjectsPanel
+            :projects="projects"
+          ></DashboardProjectsPanel>
+        </TabPanel>
+        <TabPanel value="1">
           <DashboardNotesPanel
             :notes="notes"
             @note-created="updateNotes"
           ></DashboardNotesPanel>
-        </TabPanel>
-        <TabPanel value="1">
-          <DashboardProjectsPanel
-            :projects="projects"
-          ></DashboardProjectsPanel>
         </TabPanel>
       </TabPanels>
     </Tabs>
@@ -36,6 +36,7 @@ import type { Note } from '@/modules/notes/types/notes-types';
 import DashboardNotesPanel from '../components/DashboardNotesPanel.vue';
 import type { Project } from '@/modules/projects/types/projects-types';
 import DashboardProjectsPanel from '../components/DashboardProjectsPanel.vue';
+import { apiRoutes } from '@/modules/common/constants/api.ts';
 
 const requests = new RequestsService();
 
@@ -52,7 +53,7 @@ onMounted(async () => {
 });
 
 const updateNotes = async () => {
-  const response = await requests.get<Note[]>('app/user/notes');
+  const response = await requests.get<Note[]>(apiRoutes.notes.getNotes);
   if ('errors' in response) {
     toast.add({ severity: 'error', summary: 'Error', detail: response.message, life: 3000 });
     return;
@@ -61,11 +62,11 @@ const updateNotes = async () => {
 };
 
 const updateProjects = async () => {
-  const projectsResponse = await requests.get<Project[]>('app/project');
+  const projectsResponse = await requests.get<{projects: Project[]}>(apiRoutes.projects.getProjects);
   if ('errors' in projectsResponse) {
     alert(projectsResponse.message);
     return;
   }
-  projects.value = projectsResponse.data;
+  projects.value = projectsResponse.data.projects;
 };
 </script>

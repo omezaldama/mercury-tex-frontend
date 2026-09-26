@@ -5,7 +5,7 @@ export const projectsRoutes: RouteRecordRaw[] = [
   {
     component: ProjectEditionView,
     name: 'project-edition-view',
-    path: ':projectUuid',
+    path: ':projectId',
     props: true,
   },
 ];

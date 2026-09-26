@@ -28,7 +28,7 @@
               <Button size="small">Open &#8599;</Button>
             </a>
           </div>
-          <div :style="{filter: `invert(${themeStore.theme === 'dark' ? 1 : 0})`}">
+          <div :style="{filter: `invert(${themeStore.theme === 'dark' ? 0.9 : 0})`}">
             <VuePDF
               v-for="page in pages"
               :pdf="pdf"
@@ -58,7 +58,7 @@ import type { ProjectFile } from '../types/projects-types';
 import { apiRoutes } from '@/modules/common/constants/api';
 
 const props = defineProps({
-  projectUuid: { type: String, required: true },
+  projectId: { type: String, required: true },
 });
 
 const requests = new RequestsService();
@@ -102,7 +102,7 @@ const handleCompile = async () => {
   await saveSelectedFile();
   const projectFileUuid = selectedProjectFile.value!.uuid;
   await requests.post(
-    `app/project/${props.projectUuid}/file/${projectFileUuid}/pdf`,
+    `app/project/${props.projectId}/file/${projectFileUuid}/pdf`,
   );
   isLoading.value = false;
   const temp = selectedProjectFile.value!.uuid;
@@ -122,7 +122,7 @@ const handleProjectFileClick = async (projectFile: ProjectFile) => {
 const saveSelectedFile = async () => {
   const projectFileUuid = selectedProjectFile.value!.uuid;
   await requests.patch(
-    apiRoutes.projects.saveFile(props.projectUuid, projectFileUuid),
+    apiRoutes.projects.saveFile(props.projectId, projectFileUuid),
     // @ts-ignore-next-line
     { name: selectedProjectFile.value!.name, contents: editor.getValue() },
   );
@@ -130,7 +130,7 @@ const saveSelectedFile = async () => {
 
 const updateFileContent = async (projectFileUuid: string) => {
   const fileContentResponse = await requests.get<string>(
-    apiRoutes.projects.getFileContent(props.projectUuid, projectFileUuid),
+    apiRoutes.projects.getFileContent(props.projectId, projectFileUuid),
   );
   if ('errors' in fileContentResponse) {
     toast.add({ severity: 'error', summary: 'Error', detail: fileContentResponse.message, life: 3000 });
@@ -143,7 +143,7 @@ const updateFileContent = async (projectFileUuid: string) => {
 const updateProjectFiles = async () => {
   isLoading.value = true;
   const projectFilesResponse = await requests.get<ProjectFile[]>(
-    apiRoutes.projects.getFiles(props.projectUuid),
+    apiRoutes.projects.getFiles(props.projectId),
   );
   if ('errors' in projectFilesResponse) {
     toast.add({ severity: 'error', summary: 'Error', detail: projectFilesResponse.message, life: 3000 });

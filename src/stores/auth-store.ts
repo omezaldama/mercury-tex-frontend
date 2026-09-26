@@ -4,6 +4,7 @@ import type { Ref } from 'vue';
 
 import RequestsService from '@/modules/common/services/requests-service';
 import type { LoginToken } from '@/modules/auth/types/auth-types';
+import { apiRoutes } from '@/modules/common/constants/api';
 
 export const useAuthStore = defineStore('auth', () => {
   const requestsService = new RequestsService();
@@ -26,7 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const refreshToken = async () => {
-    const response = await requestsService.put<LoginToken>('auth/refresh-token', null);
+    const response = await requestsService.post<LoginToken>(apiRoutes.auth.refreshToken, null);
     if ('errors' in response || !response.data) {
       logout();
       return;

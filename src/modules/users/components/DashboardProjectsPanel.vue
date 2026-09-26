@@ -21,7 +21,7 @@
     <div v-else>
       <div v-for="project in projects">
         <RouterLink
-          :to="{ name: 'project-edition-view', params: { projectUuid: project.uuid } }"
+          :to="{ name: 'project-edition-view', params: { projectId: project.id } }"
         >
           {{ project.name }}
         </RouterLink>
@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 
